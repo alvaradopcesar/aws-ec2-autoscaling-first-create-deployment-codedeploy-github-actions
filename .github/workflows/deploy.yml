@@ -21,7 +21,7 @@ jobs:
         id: deploy
         uses: webfactory/create-aws-codedeploy-deployment/create-deployment@v0.5.0
         with:
-              application: Testing
+              application: YoutubeFirstDeploymentApps
       - name : Print Commit Message
         uses: peter-evans/commit-comment@v2
         with:
