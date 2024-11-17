@@ -6,7 +6,7 @@
     <title>EC2 Public IP</title>
 </head>
 <body>
-    <h1>Welcome to my EC2 Instance</h1>
+    <h1>Welcome to my EC2 Instance ..</h1>
     <p>Your EC2 instance's public IP is:
         <?php echo $_SERVER['SERVER_ADDR']; ?>
     </p>
