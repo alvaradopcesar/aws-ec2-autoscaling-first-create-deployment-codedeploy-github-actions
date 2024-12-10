@@ -10,4 +10,4 @@ branch_config:
     main:
         deploymentGroupName: YoutubeFirstDeploymentGroup
         deploymentGroupConfig:
-            serviceRoleArn: arn:aws:iam::276313926502:role/CodeDeployTestApplication
+            serviceRoleArn: arn:aws:iam::739447811871:role/RoleCodeDeployTestApplication

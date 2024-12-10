@@ -1,33 +1,26 @@
-name : Push code to EC2 imaage
+name: WordPress Deployment
+
 on:
   push:
-    branches: main 
-jobs:
-  build-push-deploy:
-    runs-on: ubuntu-latest
-    environment: AWS_Environment
-    steps:
-      - name : Checkout Code
-        uses: actions/checkout@v4
-      - name : List directory
-        run : ls -al 
-      - name: "Configure AWS Credentials" 
-        uses: aws-actions/configure-aws-credentials@v4.0.2
-        with:
-          aws-region: us-east-2
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-      - name : Create Code Deploy
-        id: deploy
-        uses: webfactory/create-aws-codedeploy-deployment/create-deployment@v0.5.0
-        with:
-              application: YoutubeFirstDeploymentApps
-      - name : Print Commit Message
-        uses: peter-evans/commit-comment@v2
-        with:
-              application: Testing
-              token: ${{ secrets.CODEDEPLOY_TOKEN }}
-              body: |
-                    @${{ github.actor }} this was deployed as [${{ steps.deploy.outputs.deploymentId }}](https://console.aws.amazon.com/codesuite/codedeploy/deployments/${{ steps.deploy.outputs.deploymentId }}?region=us-east-1) to group `${{ steps.deploy.outputs.deploymentGroupName }}`.
+    branches:
+      - dev
+      - main
 
-            
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to Dev Server
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ec2-54-166-19-129.compute-1.amazonaws.com
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/html 
+            git pull origin main
